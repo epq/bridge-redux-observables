@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
 
 
-const APP_ID = 'e7e216b0';
-const APP_KEY = '0b5ad1a1dcce889c9ea6a9df1e16a318';
+const APP_ID = '6c926503';
+const APP_KEY = '8c87fc01df710af89259647c4651548f';
 
 const BASE_ENDPOINT = `https://api.edamam.com/search?app_id=${APP_ID}&app_key=${APP_KEY}`;
 
@@ -39,7 +39,7 @@ export const getRecipeByNameEpic = action$ =>
       Observable.ajax(`${BASE_ENDPOINT}&q=${action.payload}`)
 
       // after it comes back from the server, send out this NEW action
-      // this action is ONLY sent out when a successful response is reciped from the above ajax call
+      // this action is ONLY sent out when a successful response is received from the above ajax call
       // with redux-observable, the last thing you return in the chain should be an action object
       // that action object is then picked up by redux like normal!
         .map(({ response }) => ({
