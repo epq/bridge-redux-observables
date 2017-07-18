@@ -22,7 +22,7 @@ export const searchRecipes = value => ({
 
 export const selectRecipe = value => ({
   type: RECIPE_ACTIONS.SELECT_RECIPE,
-  payload: value,
+  payload: value.recipe,
 });
 
 

@@ -18,11 +18,10 @@ const App = props =>
         <button onClick={() => props.getRecipeByName(props.searchInput)}>Search!</button>
       </p>
       {props.recipeList.map(recipe => <li key={recipe.uri}
-                                          // onClick={() => console.log(recipe)}>
                                           onClick={() => props.selectRecipe({recipe})}>
         {recipe.label}
       </li>)}
-      <RecipeInfo {...props} />
+      <RecipeInfo recipe={props.selectedRecipe} />
     </div>
   );
 
@@ -34,29 +33,33 @@ const Search = ({searchInput, searchRecipes}) =>
       onChange={ev => searchRecipes(ev.target.value)}
   />);
 
-const RecipeInfo = ({...props}) =>
+const RecipeInfo = ({recipe}) =>
 {
-  if (props.selectedRecipe) {
-    {console.log("SELECTED RECIPE")}
+  if (recipe) {
     return (
       <div>
-        <h1>TEST</h1>
-        {props.selectedRecipe.recipe.label}
+        <h3>{recipe.label}</h3>
+        <img src={recipe.image} />
+        <p>
+          <b>Ingredients</b>
+          {recipe.ingredients.map(ingredients => <li key={ingredients.text}>{ingredients.text}</li>)}
+        </p>
+        <p>
+          Source: <a href={recipe.url}>{recipe.source}</a>
+        </p>
       </div>);
   }
   else {
-    {console.log("DID NOT SELECT RECIPE")}
     return null;
   }
 };
 
 const connectConfig = connect(state => ({
-  testReducer: 'foo', // how could I potentially apply the value of the reducer on line 6 of reducers/index.js?
   recipeList: state.recipe.list,
   searchInput: state.searchInput,
-  selectedRecipe: state.selectedRecipe,
+  selectedRecipe: state.recipe.selectedRecipe,
 }), {
-  getRecipeByName: getRecipeByName, // how can we simplify this, do we remember?
+  getRecipeByName,
   searchRecipes,
   selectRecipe,
 });
