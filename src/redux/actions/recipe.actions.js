@@ -5,7 +5,9 @@ export const RECIPE_ACTIONS = {
   // epic actions
   RECIPES_RECEIVED_SUCCESS: 'RECIPES_RECEIVED_SUCCESS',
   RECIPES_RECEIVED_ERROR: 'RECIPES_RECEIVED_ERROR',
+
   SEARCH_RECIPES: 'SEARCH_RECIPES',
+  SELECT_RECIPE: 'SELECT_RECIPE',
 };
 
 export const getRecipeByName = recipeName => ({
@@ -13,8 +15,14 @@ export const getRecipeByName = recipeName => ({
   payload: recipeName
 });
 
-export const searchRecipes= value => ({
-    type: RECIPE_ACTIONS.SEARCH_RECIPES,
-    payload: value,
+export const searchRecipes = value => ({
+  type: RECIPE_ACTIONS.SEARCH_RECIPES,
+  payload: value,
 });
+
+export const selectRecipe = value => ({
+  type: RECIPE_ACTIONS.SELECT_RECIPE,
+  payload: value,
+});
+
 

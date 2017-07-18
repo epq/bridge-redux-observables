@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { getRecipeByName, searchRecipes } from './redux/actions/recipe.actions';
+import { getRecipeByName, searchRecipes, selectRecipe } from './redux/actions/recipe.actions';
 
 
 // remember, props should now have data coming in from redux state!
@@ -17,7 +17,12 @@ const App = props =>
         <Search {...props} />
         <button onClick={() => props.getRecipeByName(props.searchInput)}>Search!</button>
       </p>
-      {props.recipeList.map(recipe => <h3 key={recipe.uri}> name: {recipe.label} calories: {recipe.calories}</h3>)}
+      {props.recipeList.map(recipe => <li key={recipe.uri}
+                                          // onClick={() => console.log(recipe)}>
+                                          onClick={() => props.selectRecipe({recipe})}>
+        {recipe.label}
+      </li>)}
+      <RecipeInfo {...props} />
     </div>
   );
 
@@ -27,7 +32,23 @@ const Search = ({searchInput, searchRecipes}) =>
       value={searchInput}
       name="search"
       onChange={ev => searchRecipes(ev.target.value)}
-    />);
+  />);
+
+const RecipeInfo = ({...props}) =>
+{
+  if (props.selectedRecipe) {
+    {console.log("SELECTED RECIPE")}
+    return (
+      <div>
+        <h1>TEST</h1>
+        {props.selectedRecipe.recipe.label}
+      </div>);
+  }
+  else {
+    {console.log("DID NOT SELECT RECIPE")}
+    return null;
+  }
+};
 
 const connectConfig = connect(state => ({
   testReducer: 'foo', // how could I potentially apply the value of the reducer on line 6 of reducers/index.js?
@@ -36,7 +57,8 @@ const connectConfig = connect(state => ({
   selectedRecipe: state.selectedRecipe,
 }), {
   getRecipeByName: getRecipeByName, // how can we simplify this, do we remember?
-  searchRecipes
+  searchRecipes,
+  selectRecipe,
 });
 
 

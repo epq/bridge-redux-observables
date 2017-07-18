@@ -2,7 +2,8 @@ import { RECIPE_ACTIONS } from '../actions/recipe.actions';
 
 const DEFAULT_STATE = {
   list: [],
-  isError: false
+  isError: false,
+  selectedRecipe: null,
 };
 
 export default (state = DEFAULT_STATE, action) => {
@@ -20,6 +21,9 @@ export default (state = DEFAULT_STATE, action) => {
       // https://github.com/redux-observable/redux-observable/blob/master/docs/recipes/ErrorHandling.md
     case RECIPE_ACTIONS.RECIPES_RECEIVED_ERROR:
       return {...state, list: [], isError: true };
+
+    case RECIPE_ACTIONS.SELECT_RECIPE:
+      return {...state, selectedRecipe: action.payload, isError: false};
 
     default:
       return state;

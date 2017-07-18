@@ -9,6 +9,7 @@ const searchInput = (state = '', { type, payload }) => {
   return state;
 };
 
+
 // heres an example of using combineReducers to make a larger reducer! the object it gets represents
 // your final global state object, so you can structure this in a way that makes sense
 // but keep it as flat as possible!
