@@ -10,38 +10,56 @@ const App = props =>
   (
     <div className="App">
       <div className="App-header">
-        {props.test}
         <h2>Search for Recipes</h2>
       </div>
-      <p className="App-intro">
-        <Search {...props} />
-        <button onClick={() => props.getRecipeByName(props.searchInput)}>Search!</button>
-      </p>
-      {props.recipeList.map(recipe => <li key={recipe.uri}
-                                          onClick={() => props.selectRecipe({recipe})}>
-        {recipe.label}
-      </li>)}
-      <RecipeInfo recipe={props.selectedRecipe} />
+        <div className="search-bar">
+          <Search {...props} />
+        </div>
+      <div className="container">
+        <RecipeList {...props} />
+        <RecipeInfo recipe={props.selectedRecipe} />
+      </div>
     </div>
   );
 
-const Search = ({searchInput, searchRecipes}) =>
-  (<input
-      placeholder="Search by recipe name"
-      value={searchInput}
-      name="search"
-      onChange={ev => searchRecipes(ev.target.value)}
-  />);
+const Search = ({searchInput, searchRecipes, getRecipeByName}) => {
+  return (
+    <div>
+      <input
+        placeholder="Search by recipe name"
+        value={searchInput}
+        name="search"
+        onChange={ev => searchRecipes(ev.target.value)} />
+      <button onClick={() => getRecipeByName(searchInput)}>Search!</button>
+    </div>
+  );
+};
 
-const RecipeInfo = ({recipe}) =>
-{
+const RecipeList = ({recipeList, selectRecipe}) => {
+    if (recipeList.length > 0) {
+      return (
+      <div className="recipe-info">
+        <h3>Recipes</h3>
+        {recipeList.map(recipe => <li key={recipe.uri}
+                                      onClick={() => selectRecipe({recipe})}>
+          {recipe.label}
+        </li>)}
+      </div>
+      );
+    }
+    else {
+      return null;
+    }
+};
+
+const RecipeInfo = ({recipe}) => {
   if (recipe) {
     return (
-      <div>
+      <div className="recipe-info">
         <h3>{recipe.label}</h3>
         <img src={recipe.image} />
         <p>
-          <b>Ingredients</b>
+          <b>Ingredients:</b>
           {recipe.ingredients.map(ingredients => <li key={ingredients.text}>{ingredients.text}</li>)}
         </p>
         <p>
@@ -50,7 +68,9 @@ const RecipeInfo = ({recipe}) =>
       </div>);
   }
   else {
-    return null;
+    return (
+      <div className="recipe-info"></div>
+    );
   }
 };
 
